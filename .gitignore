@@ -1,0 +1,24 @@
+
+.env
+
+# dados: grandes e regeneraveis pelo pipeline
+data/processed/*
+reports/*.log
+
+
+data/
+*.zip
+*.csv
+
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+
+.pbi/
+*.pbix.bak
+powerbi/**/localSettings.json
+powerbi/**/cache.abf
