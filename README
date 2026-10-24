@@ -1,0 +1,190 @@
+<!-- ### Validação do pipeline de dados
+
+A execução de `src.montar_tabelas` processa os arquivos brutos do PNCP, aplica as regras de limpeza e negócio e gera os arquivos da tabela fato e das quatro dimensões em `data/processed/`.
+
+**Comando executado:**
+
+```bash
+python -m src.montar_tabelas
+```
+
+**Resultados da validação:**
+
+| Verificação | Resultado obtido | Referência |
+|---|---:|---:|
+| Linhas em `compras.csv` | 2.042 | 2.042 |
+| Linhas em `itens.csv` | 7.077 | 7.077 |
+| Linhas em `resultados.csv` | 15.896 | 15.896 |
+| Itens com resultado antes dos filtros | 6.225 | — |
+| Itens rejeitados | 99 | 99 |
+| Registros na tabela fato | 6.126 | 6.126 |
+| Contratações distintas | 1.962 | 1.962 |
+| Fornecedores | 2.652 | 2.652 |
+| Órgãos | 363 | 363 |
+| Itens comparáveis | 5.457 | 5.457 |
+| Economia em relação ao estimado | 14,46% | 14,46% |
+| Ciclo médio de homologação | 48,1 dias | 48,1 dias |
+| Maior ciclo de homologação | 611 dias | 611 dias |
+| Itens sem ciclo calculável | 230 | 230 |
+
+**Volume homologado:** R$ 8.044.498.805,74.
+
+**Distribuição do volume homologado por perfil de gasto:**
+
+- Obras e engenharia: 60,8%
+- Serviços: 36,6%
+- Bens: 2,6%
+
+Os resultados obtidos coincidiram com os números de referência do enunciado para as verificações apresentadas. A validação do pipeline não substitui os testes de carga e integridade no MySQL, que serão documentados separadamente.
+
+#### Evidência de execução
+
+O print do console abaixo registra a execução do pipeline e os resultados apresentados no terminal. -->
+
+
+
+## 1. Objetivo do projeto
+
+Desenvolver uma esteira analítica de ponta a ponta para transformar dados de contratações públicas do Portal Nacional de Contratações Públicas (PNCP) em uma base estruturada, confiável e preparada para análises de controle e transparência.
+
+O projeto utiliza Python, Pandas e MySQL para tratar os dados, aplicar regras de negócio, construir tabelas dimensionais e preparar indicadores para visualização no Power BI.
+
+## 2. Fonte e período dos dados
+
+A base utilizada foi disponibilizada pelo professor e contém dados do PNCP referentes ao ano de 2025, no período de 02/01/2025 a 31/12/2025.
+
+Foram utilizados três arquivos CSV:
+
+| Arquivo | Descrição | Registros |
+|---|---|---:|
+| `compras.csv` | Dados das contratações | 2.042 |
+| `itens.csv` | Itens licitados | 7.077 |
+| `resultados.csv` | Fornecedores classificados por item | 15.896 |
+
+Os arquivos originais foram mantidos em `data/raw/`, separados dos arquivos resultantes do processamento.
+
+## 3. Estrutura do projeto
+
+```text
+Esteira Analitica PNPC - SC TECH/
+├── data/
+│   ├── raw/
+│   └── processed/
+├── src/
+│   ├── extrair.py
+│   ├── limpeza.py
+│   └── montar_tabelas.py
+├── sql/
+├── powerbi/
+├── docs/
+│   └── evidencias/
+└── README.md
+```
+
+A estrutura representa a organização do projeto. As pastas `sql/`, `powerbi/` e `docs/evidencias/` serão utilizadas para os scripts SQL, o arquivo do Power BI e as evidências das etapas correspondentes.
+
+## 4. Etapa 1 — Extração e organização dos dados
+
+O script `src/extrair.py` foi executado para organizar os arquivos brutos fornecidos para a atividade.
+
+Após a execução, os três arquivos CSV foram identificados em `data/raw/`, com as seguintes quantidades:
+
+- `compras.csv`: 2.042 registros.
+- `itens.csv`: 7.077 registros.
+- `resultados.csv`: 15.896 registros.
+
+A conferência das quantidades confirmou que os arquivos esperados estavam disponíveis para as etapas seguintes.
+
+## 5. Etapa 2 — Limpeza e padronização
+
+O módulo `src/limpeza.py` reúne funções utilizadas no tratamento dos dados antes da montagem das tabelas analíticas.
+
+As regras contemplam:
+
+- Padronização de documentos de identificação, como CNPJ e CPF.
+- Conversão e tratamento de valores monetários.
+- Padronização de datas e verificação de coerência temporal.
+- Identificação de valores nulos e textos que representam ausência de informação.
+- Sanitização e padronização de textos.
+
+As funções de limpeza são aplicadas durante o processamento dos arquivos, reduzindo inconsistências e preparando os dados para os relacionamentos e cálculos posteriores.
+
+## 6. Etapa 3 — Montagem das tabelas analíticas
+
+O script `src/montar_tabelas.py` integra os arquivos de compras, itens e resultados, aplica as regras de negócio e gera os arquivos processados em `data/processed/`.
+
+O processamento inclui a identificação dos resultados dos itens, a exclusão de registros inválidos e a preparação da tabela fato e das dimensões.
+
+### Regras de negócio aplicadas
+
+- Relacionamento entre os dados de compras, itens e resultados.
+- Tratamento dos itens sem resultado homologado.
+- Exclusão de itens inválidos conforme as regras definidas no projeto.
+- Seleção do resultado vencedor por item.
+- Verificação da coerência entre as datas de publicação e homologação.
+- Cálculo de valores e indicadores utilizados nas análises.
+- Identificação de itens comparáveis para a análise de economia.
+
+### Modelo dimensional previsto
+
+| Tabela | Finalidade |
+|---|---|
+| `fato_item_contratado` | Registrar os itens contratados e suas métricas |
+| `dim_orgao` | Organizar as informações dos órgãos compradores |
+| `dim_fornecedor` | Organizar os dados dos fornecedores |
+| `dim_modalidade` | Descrever as modalidades de contratação |
+| `dim_localidade` | Organizar as informações geográficas |
+
+A estrutura física dessas tabelas será validada na etapa de modelagem e carga no MySQL.
+
+## 7. Validação do processamento Python
+
+O pipeline foi executado pelo comando:
+
+```bash
+python -m src.montar_tabelas
+```
+
+Os resultados foram comparados com os números de referência disponibilizados no enunciado.
+
+| Indicador | Resultado obtido |
+|---|---:|
+| Itens com resultado antes dos filtros | 6.225 |
+| Itens rejeitados | 99 |
+| Registros previstos na tabela fato | 6.126 |
+| Contratações distintas | 1.962 |
+| Fornecedores distintos | 2.652 |
+| Órgãos distintos | 363 |
+| Itens comparáveis | 5.457 |
+| Economia calculada | 14,46% |
+| Ciclo médio de homologação | 48,1 dias |
+| Maior ciclo de homologação | 611 dias |
+| Itens sem ciclo calculável | 230 |
+
+**Volume total homologado:** R$ 8.044.498.805,74.
+
+### Distribuição do volume homologado
+
+- Obras e engenharia: 60,8%.
+- Serviços: 36,6%.
+- Bens: 2,6%.
+
+Os resultados apresentados pelo script coincidiram com os valores de referência do enunciado para os indicadores conferidos. Essa validação confirma os resultados do processamento Python, mas não substitui a conferência da carga e da integridade dos dados no MySQL.
+
+## 8. Próximas etapas
+
+As próximas etapas do projeto são:
+
+1. Criar o banco de dados `pncp_controladoria` e as cinco tabelas no MySQL.
+2. Carregar os arquivos processados e validar os relacionamentos e as quantidades de registros.
+3. Desenvolver e executar as consultas SQL para responder às perguntas de negócio da Controladoria.
+4. Construir o dashboard no Power BI, com as medidas e os indicadores exigidos no enunciado.
+5. Registrar as evidências de execução, atualizar a documentação e revisar o repositório antes da entrega.
+
+## 9. Evidências
+
+As evidências serão organizadas na pasta `docs/evidencias/`, incluindo a saída do console da validação Python e, posteriormente, os resultados dos testes de carga no MySQL.
+
+
+
+![Saída do console na validação do pipeline](assets/validacao_pipeline.png)
