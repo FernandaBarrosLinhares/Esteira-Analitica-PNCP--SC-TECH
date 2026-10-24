@@ -171,20 +171,30 @@ Os resultados foram comparados com os números de referência disponibilizados n
 
 Os resultados apresentados pelo script coincidiram com os valores de referência do enunciado para os indicadores conferidos. Essa validação confirma os resultados do processamento Python, mas não substitui a conferência da carga e da integridade dos dados no MySQL.
 
-## 8. Próximas etapas
-
-As próximas etapas do projeto são:
-
-1. Criar o banco de dados `pncp_controladoria` e as cinco tabelas no MySQL.
-2. Carregar os arquivos processados e validar os relacionamentos e as quantidades de registros.
-3. Desenvolver e executar as consultas SQL para responder às perguntas de negócio da Controladoria.
-4. Construir o dashboard no Power BI, com as medidas e os indicadores exigidos no enunciado.
-5. Registrar as evidências de execução, atualizar a documentação e revisar o repositório antes da entrega.
-
-## 9. Evidências
+## 8. Evidências
 
 As evidências serão organizadas na pasta `docs/evidencias/`, incluindo a saída do console da validação Python e, posteriormente, os resultados dos testes de carga no MySQL.
 
 
 
 ![Saída do console na validação do pipeline](assets/validacao_pipeline.png)
+
+9. Etapa 4 — Modelagem dimensional no MySQL
+
+Foi elaborado o script SQL para criação do banco de dados pncp_controladoria e das cinco tabelas previstas no modelo dimensional.
+
+Tabelas criadas no modelo
+
+dim_orgao: dados dos órgãos compradores.
+
+dim_fornecedor: identificação e características dos fornecedores.
+
+dim_modalidade: modalidades de contratação.
+
+dim_localidade: unidades federativas e regiões.
+
+fato_item_contratado: itens contratados, valores, datas e indicadores de análise.
+
+A tabela fato utiliza chaves estrangeiras para relacionar os registros às quatro dimensões. O modelo também define restrições de unicidade e verificações para quantidades, valores e classificação dos itens comparáveis.
+
+Status: script de criação elaborado. A execução no MySQL, a carga dos arquivos processados e a validação das chaves e quantidades de registros serão documentadas após os testes.
