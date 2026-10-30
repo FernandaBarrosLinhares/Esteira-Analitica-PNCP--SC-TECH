@@ -16,6 +16,14 @@ SELECT
 FROM
     fato_item_contratado;
 
+-- P1 (apoio): itens comparáveis e itens com sobrepreço
+SELECT
+    COUNT(*) AS itens_total,
+    SUM(comparavel = 1) AS itens_comparaveis,
+    ROUND(SUM(comparavel = 1) * 100 / COUNT(*), 1) AS pct_comparaveis,
+    SUM(comparavel = 1 AND valor_total_homologado > valor_total_estimado) AS itens_sobrepreco
+FROM fato_item_contratado;
+
 -- P2: top 10 fornecedores por volume e % do volume total
 
 SELECT
@@ -68,4 +76,37 @@ JOIN dim_modalidade m ON m.sk_modalidade = f.sk_modalidade
 GROUP BY m.nome_modalidade
 ORDER BY volume DESC;
 
+-- P4: ciclo médio por órgão (nome padronizado; só órgãos com 5+ itens com ciclo)
+SELECT
+    o.nome_orgao,
+    COUNT(DISTINCT o.cnpj_orgao) AS unidades,
+    COUNT(f.dias_ciclo) AS itens_com_ciclo,
+    ROUND(AVG(f.dias_ciclo), 1) AS ciclo_medio_dias,
+    MAX(f.dias_ciclo) AS ciclo_max_dias
+FROM fato_item_contratado f
+JOIN dim_orgao o ON o.sk_orgao = f.sk_orgao
+GROUP BY o.nome_orgao
+HAVING COUNT(f.dias_ciclo) >= 5
+ORDER BY ciclo_medio_dias DESC;
 
+-- P4 (conferência): ciclo geral (esperado: 5896, 48.1, 611, 230)
+SELECT
+    COUNT(dias_ciclo) AS itens_com_ciclo,
+    ROUND(AVG(dias_ciclo), 1) AS ciclo_medio,
+    MAX(dias_ciclo) AS ciclo_max,
+    COUNT(*) - COUNT(dias_ciclo) AS itens_sem_ciclo
+FROM fato_item_contratado;
+
+-- P4 (apoio): 5 maiores ciclos individuais
+SELECT numero_controle_pncp, numero_item, dias_ciclo
+FROM fato_item_contratado
+ORDER BY dias_ciclo DESC, numero_controle_pncp, numero_item
+LIMIT 5;
+
+-- P4 (apoio): órgão do maior ciclo (611 dias)
+SELECT cnpj_orgao, nome_orgao FROM dim_orgao
+WHERE cnpj_orgao = '00394452000103';
+
+-- P4 (apoio): órgão do ciclo de 437 dias 
+SELECT cnpj_orgao, nome_orgao FROM dim_orgao
+WHERE cnpj_orgao = '04892707000100';
