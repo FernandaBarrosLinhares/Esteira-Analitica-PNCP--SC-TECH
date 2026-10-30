@@ -1,6 +1,7 @@
 USE pncp_controladoria;
 
 -- P1: economia global (só itens comparáveis; percentual = soma ÷ soma)
+
 SELECT 
     SUM(CASE
         WHEN comparavel = 1 THEN valor_total_estimado
@@ -50,5 +51,21 @@ FROM fato_item_contratado f
 JOIN dim_fornecedor d ON d.sk_fornecedor = f.sk_fornecedor
 WHERE d.ni_fornecedor = '46973571000103'
 ORDER BY valor_total_homologado DESC;
+
+-- P3: deságio e volume por modalidade
+
+SELECT
+    m.nome_modalidade,
+    COUNT(*) AS itens,
+    SUM(f.valor_total_homologado) AS volume,
+    ROUND(SUM(f.valor_total_homologado) * 100 /
+        (SELECT SUM(valor_total_homologado) FROM fato_item_contratado), 2) AS pct_volume,
+    SUM(f.economia_valor) AS economia_rs,
+    ROUND(SUM(f.economia_valor) * 100 /
+        NULLIF(SUM(CASE WHEN f.comparavel = 1 THEN f.valor_total_estimado ELSE 0 END), 0), 2) AS desagio_pct
+FROM fato_item_contratado f
+JOIN dim_modalidade m ON m.sk_modalidade = f.sk_modalidade
+GROUP BY m.nome_modalidade
+ORDER BY volume DESC;
 
 
