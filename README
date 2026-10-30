@@ -176,5 +176,54 @@ carrega as 4 dimensões primeiro e a fato depois, em lote.
 - FK solta em órgão, fornecedor, modalidade e localidade: 0.
 - Duplicidade do grão (numero_controle_pncp + numero_item): nenhuma.
 
-![Validação do banco](assets/validacao_banco.png)
+![Contagem da fato](assets/validacao_item.png)
+![Soma do homologado](assets/validacao_soma.png)
+![FK solta: orgão](assets/validacao_orgao.png)
+![FK solta: fornecedor](assets/validacao_fornecedor.png)
+![FK solta: modalidade ](assets/validacao_modalidade.png)
+![FK solta: localidade](assets/validacao_localidade.png)
+![Duplicidade do grão ](assets/validacao_duplicidade.png)
 
+
+## 11. Respostas às perguntas da Controladoria
+
+> Os resultados valem para a amostra de contratações federais de 2025 analisada, e não para todo o governo.
+> Consultas em `sql/02_perguntas.sql`.
+
+
+## 11. Respostas às perguntas da Controladoria
+
+> Os resultados valem para a amostra de contratações federais de 2025 analisada, e não para todo o governo.
+> Consultas em `sql/02_perguntas.sql`.
+
+### P1 — Economia global
+
+**Resultado:**
+
+| Indicador | Valor |
+|---|---:|
+| Estimado (itens comparáveis) | R$ 6.867.663.469,91 |
+| Economia nominal | R$ 992.861.686,95 |
+| Economia % | 14,46% |
+
+![P1 - Economia](assets/pergunta_um.png)
+
+**Conclusão:** nos itens comparáveis, o governo pagou 14,46% abaixo do estimado, o que dá cerca de R$ 993 mi de economia. O cálculo é soma ÷ soma e exclui Credenciamento e itens fora da faixa de 0,1 a 10.
+
+### P2 — Concentração de fornecedores
+
+**Resultado:**
+
+| Indicador | Valor |
+|---|---:|
+| Top 10: volume | R$ 3.332.484.029,86 |
+| Top 10: % do volume total | 41,43% |
+| 1º colocado (NOW SEGUROS SA) | R$ 1,06 bi (13,18%) |
+
+![P2 - Top 10 fornecedores](assets/pergunta_dois.png)
+![P2 - Concentração](assets/pergunta_dois_complemento.png)
+![P2 - Detalhe NOW SEGUROS](assets/now_seguros.png)
+
+**Conclusão:** na amostra de 2025 analisada, os 10 maiores fornecedores, entre 2.652, concentram R$ 3,33 bi (41,43% do volume homologado). O 1º colocado, NOW SEGUROS SA, responde por 13,18% (R$ 1,06 bi), mas isso vem de um único item: a seleção de seguradora para o Programa de Subvenção ao Prêmio do Seguro Rural, de alcance nacional. Ou seja, parte da concentração decorre de contratos isolados de grande porte, e não de recorrência. Predominam construtoras entre os demais, coerente com o peso de Obras e engenharia.
+
+**Insight:** a concentração é puxada por poucos itens de valor muito alto. Como melhoria futura, vale medir a concentração também por quantidade de itens por fornecedor.
