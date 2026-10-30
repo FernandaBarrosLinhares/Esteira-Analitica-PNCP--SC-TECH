@@ -155,3 +155,26 @@ A tabela fato utiliza chaves estrangeiras para relacionar os registros às quatr
 Status: script de criação elaborado. A execução no MySQL, a carga dos arquivos processados e a validação das chaves e quantidades de registros serão documentadas após os testes.
 
 
+## 10. Etapa 5 — Carga e validação no MySQL
+
+A carga é feita por `python -m src.carregar`, que executa o `sql/01_criar_banco.sql`,
+carrega as 4 dimensões primeiro e a fato depois, em lote.
+
+### Contagens (banco x prova real)
+
+| Tabela | Obtido | Esperado |
+|---|---:|---:|
+| fato_item_contratado | 6.126 | 6.126 |
+| dim_orgao | 363 | 363 |
+| dim_fornecedor | 2.652 | 2.652 |
+| dim_modalidade | 7 | 7 |
+| dim_localidade | 27 | 27 |
+
+### Validações de integridade (`sql/03_validacao.sql`)
+
+- Soma do valor total homologado: R$ 8.044.498.805,74 (igual à prova real).
+- FK solta em órgão, fornecedor, modalidade e localidade: 0.
+- Duplicidade do grão (numero_controle_pncp + numero_item): nenhuma.
+
+![Validação do banco](assets/validacao_banco.png)
+
