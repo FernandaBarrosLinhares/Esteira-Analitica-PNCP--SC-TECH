@@ -324,10 +324,26 @@ carrega as 4 dimensões primeiro e a fato depois, em lote.
 | 37115342000167-1-000089/2025 | 1 | 160.000.000,00 |
 | 03353358000196-1-000034/2025 | 1 | 103.600.000,00 |
 
-![P5 - UF](assets/p5_uf.png)
-![P5 - Região](assets/p5_regiao.png)
-![P5 - Maiores itens do DF](assets/p5_maiores_itens_df.png)
+![P5 - UF](assets/pergunta_cinco.png)
+![P5 - Região](assets/regiao.png)
+![P5 - Maiores itens do DF](assets/maiores_itens_df.png)
 
 **Conclusão:** na amostra de 2025, o Distrito Federal concentra 38,98% do volume (R$ 3,14 bi) e o Centro-Oeste, 44,25%. Os maiores deságios por UF estão no AC (26,71%), MT (25,84%) e BA (25,01%). Por região, o Norte tem o maior deságio (21,43%), com só 6,58% do volume. O Sul tem o menor (7,96%).
 
 **Insight:** gasto e desconto não coincidem. O volume do DF é puxado por poucos itens de valor muito alto: o seguro rural (R$ 1,06 bi) equivale a cerca de 33,8% do volume do DF, e os 5 maiores itens somam R$ 2,04 bi, cerca de 65%. Isso explica por que o Centro-Oeste lidera o volume. Os maiores descontos aparecem em UFs de baixo volume, como AC e MT, e vêm de poucos itens comparáveis. A localidade é a da contratação, e um mesmo CNPJ de órgão pode aparecer em mais de uma UF, por isso a coluna de unidades compradoras não deve ser somada.
+
+### P6 — Perfil dos gastos
+
+**Resultado:**
+
+| Perfil | Itens | Volume (R$) | % do volume | Ticket médio (R$) |
+|---|---:|---:|---:|---:|
+| Obras e engenharia | 967 | 4.892.362.732,70 | 60,8 | 5.059.320,30 |
+| Serviços | 1.849 | 2.940.950.885,18 | 36,6 | 1.590.562,94 |
+| Bens | 3.310 | 211.185.187,86 | 2,6 | 63.802,17 |
+
+![P6 - Perfil do gasto](assets/pergunta_seis.png)
+
+**Conclusão:** na amostra de 2025, Obras e engenharia concentram 60,8% do volume homologado (R$ 4,89 bi), Serviços ficam com 36,6% (R$ 2,94 bi) e Bens com apenas 2,6% (R$ 211 mi). A classificação usa as palavras obra, construção, reforma e engenharia (com limite de palavra, `\b`) na descrição do item e no objeto da contratação; essas palavras têm prioridade sobre Material ou Serviço.
+
+**Insight:** o dinheiro público da amostra está em poucos itens de alto valor. Os 967 itens de Obras (15,8% dos itens) movimentam 60,8% do volume, enquanto os 3.310 itens de Bens (54%) movimentam 2,6%. Para a Controladoria, o risco financeiro está nas obras e nos serviços, não na compra de bens. Como a classificação depende das palavras-chave escolhidas, trocar a lista altera um pouco os percentuais.

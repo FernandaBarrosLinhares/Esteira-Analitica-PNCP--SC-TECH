@@ -116,7 +116,7 @@ SELECT cnpj_orgao, nome_orgao FROM dim_orgao
 WHERE cnpj_orgao = '04892707000100';
 
 
--- P5a: despesa e desconto por UF
+-- P5: despesa e desconto por UF
 
 SELECT
     l.uf_sigla,
@@ -133,7 +133,7 @@ JOIN dim_orgao o ON o.sk_orgao = f.sk_orgao
 GROUP BY l.uf_sigla, l.regiao
 ORDER BY volume DESC;
 
--- P5b: despesa e desconto por região
+-- P5: despesa e desconto por região
 
 SELECT
     l.regiao,
@@ -150,9 +150,23 @@ GROUP BY l.regiao
 ORDER BY volume DESC;
 
 -- P5 (apoio): maiores itens do DF
+
 SELECT f.numero_controle_pncp, f.numero_item, f.valor_total_homologado
 FROM fato_item_contratado f
 JOIN dim_localidade l ON l.sk_localidade = f.sk_localidade
 WHERE l.uf_sigla = 'DF'
 ORDER BY f.valor_total_homologado DESC
 LIMIT 5;
+
+-- P6: distribuição do gasto entre bens, serviços e obras e engenharia
+
+SELECT
+    perfil_gasto,
+    COUNT(*) AS itens,
+    SUM(valor_total_homologado) AS volume,
+    ROUND(SUM(valor_total_homologado) * 100 /
+        (SELECT SUM(valor_total_homologado) FROM fato_item_contratado), 1) AS pct_volume,
+    ROUND(SUM(valor_total_homologado) / COUNT(*), 2) AS ticket_medio
+FROM fato_item_contratado
+GROUP BY perfil_gasto
+ORDER BY volume DESC;
