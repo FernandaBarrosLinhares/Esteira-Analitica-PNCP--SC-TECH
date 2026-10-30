@@ -1,48 +1,3 @@
-<!-- ### Validação do pipeline de dados
-
-A execução de `src.montar_tabelas` processa os arquivos brutos do PNCP, aplica as regras de limpeza e negócio e gera os arquivos da tabela fato e das quatro dimensões em `data/processed/`.
-
-**Comando executado:**
-
-```bash
-python -m src.montar_tabelas
-```
-
-**Resultados da validação:**
-
-| Verificação | Resultado obtido | Referência |
-|---|---:|---:|
-| Linhas em `compras.csv` | 2.042 | 2.042 |
-| Linhas em `itens.csv` | 7.077 | 7.077 |
-| Linhas em `resultados.csv` | 15.896 | 15.896 |
-| Itens com resultado antes dos filtros | 6.225 | — |
-| Itens rejeitados | 99 | 99 |
-| Registros na tabela fato | 6.126 | 6.126 |
-| Contratações distintas | 1.962 | 1.962 |
-| Fornecedores | 2.652 | 2.652 |
-| Órgãos | 363 | 363 |
-| Itens comparáveis | 5.457 | 5.457 |
-| Economia em relação ao estimado | 14,46% | 14,46% |
-| Ciclo médio de homologação | 48,1 dias | 48,1 dias |
-| Maior ciclo de homologação | 611 dias | 611 dias |
-| Itens sem ciclo calculável | 230 | 230 |
-
-**Volume homologado:** R$ 8.044.498.805,74.
-
-**Distribuição do volume homologado por perfil de gasto:**
-
-- Obras e engenharia: 60,8%
-- Serviços: 36,6%
-- Bens: 2,6%
-
-Os resultados obtidos coincidiram com os números de referência do enunciado para as verificações apresentadas. A validação do pipeline não substitui os testes de carga e integridade no MySQL, que serão documentados separadamente.
-
-#### Evidência de execução
-
-O print do console abaixo registra a execução do pipeline e os resultados apresentados no terminal. -->
-
-
-
 ## 1. Objetivo do projeto
 
 Desenvolver uma esteira analítica de ponta a ponta para transformar dados de contratações públicas do Portal Nacional de Contratações Públicas (PNCP) em uma base estruturada, confiável e preparada para análises de controle e transparência.
@@ -179,7 +134,7 @@ As evidências serão organizadas na pasta `docs/evidencias/`, incluindo a saíd
 
 ![Saída do console na validação do pipeline](assets/validacao_pipeline.png)
 
-9. Etapa 4 — Modelagem dimensional no MySQL
+## 9. Etapa 4 — Modelagem dimensional no MySQL
 
 Foi elaborado o script SQL para criação do banco de dados pncp_controladoria e das cinco tabelas previstas no modelo dimensional.
 
@@ -198,3 +153,5 @@ fato_item_contratado: itens contratados, valores, datas e indicadores de anális
 A tabela fato utiliza chaves estrangeiras para relacionar os registros às quatro dimensões. O modelo também define restrições de unicidade e verificações para quantidades, valores e classificação dos itens comparáveis.
 
 Status: script de criação elaborado. A execução no MySQL, a carga dos arquivos processados e a validação das chaves e quantidades de registros serão documentadas após os testes.
+
+
