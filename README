@@ -227,3 +227,107 @@ carrega as 4 dimensões primeiro e a fato depois, em lote.
 **Conclusão:** na amostra de 2025 analisada, os 10 maiores fornecedores, entre 2.652, concentram R$ 3,33 bi (41,43% do volume homologado). O 1º colocado, NOW SEGUROS SA, responde por 13,18% (R$ 1,06 bi), mas isso vem de um único item: a seleção de seguradora para o Programa de Subvenção ao Prêmio do Seguro Rural, de alcance nacional. Ou seja, parte da concentração decorre de contratos isolados de grande porte, e não de recorrência. Predominam construtoras entre os demais, coerente com o peso de Obras e engenharia.
 
 **Insight:** a concentração é puxada por poucos itens de valor muito alto. Como melhoria futura, vale medir a concentração também por quantidade de itens por fornecedor.
+
+### P3 — Eficácia por modalidade
+
+**Resultado:**
+
+| Modalidade | Itens | Volume (R$) | % do volume | Deságio % |
+|---|---:|---:|---:|---:|
+| Concorrência - Eletrônica | 521 | 4.700.493.122,98 | 58,43 | 14,27 |
+| Credenciamento | 601 | 2.141.301.557,16 | 26,62 | n/d |
+| Pregão - Eletrônico | 3.046 | 502.223.491,28 | 6,24 | 24,02 |
+| Concorrência - Presencial | 63 | 444.752.757,18 | 5,53 | 6,79 |
+| Inexigibilidade | 503 | 213.365.238,19 | 2,65 | 8,77 |
+| Dispensa | 1.387 | 39.887.350,44 | 0,50 | 4,49 |
+| Pregão - Presencial | 5 | 2.475.288,51 | 0,03 | 0,02 |
+
+![P3 - Modalidades](assets/pergunta_tres.png)
+
+**Conclusão:** na amostra de 2025, a Concorrência - Eletrônica concentra 58,43% do volume, com deságio de 14,27%. O Pregão - Eletrônico tem o maior deságio (24,02%) e movimenta só 6,24% do volume. Credenciamento é o 2º em volume (26,62%), mas não tem deságio comparável, porque o valor estimado é um teto global. Pregão - Presencial tem apenas 5 itens, então seu resultado não é representativo.
+
+**Insight:** volume e economia não andam juntos. A Concorrência - Eletrônica movimenta 58,43% do dinheiro com deságio de 14,27%, enquanto o Pregão - Eletrônico tem o maior deságio (24,02%) com só 6,24% do volume. Para a Controladoria, o ganho potencial está em levar para disputas mais competitivas parte do volume que hoje passa por Credenciamento (26,62% do volume, sem deságio mensurável).
+
+
+### P4 — Tempo do ciclo de compras
+
+**Resultado geral:**
+
+| Indicador | Valor |
+|---|---:|
+| Itens com ciclo | 5.896 |
+| Ciclo médio | 48,1 dias |
+| Ciclo máximo | 611 dias |
+| Itens sem ciclo | 230 |
+
+**Órgãos com maior ciclo médio** (5 ou mais itens com ciclo, agrupados pelo nome padronizado):
+
+| Órgão | Unidades | Itens com ciclo | Ciclo médio (dias) |
+|---|---:|---:|---:|
+| Universidade Federal de Campina Grande | 1 | 16 | 266,3 |
+| Conselho Federal de Engenharia e Agronomia | 1 | 20 | 223,0 |
+| DNIT | 12 | 62 | 156,2 |
+
+**Maiores ciclos individuais:**
+
+| Contratação | Item | Ciclo (dias) |
+|---|---:|---:|
+| 00394452000103-1-002632/2025 | 17 | 611 |
+| 00394452000103-1-002632/2025 | 16 | 581 |
+| 00394452000103-1-001751/2025 | 10 | 564 |
+| 29979036000140-1-000124/2025 | 1 | 482 |
+| 04892707000100-1-000101/2025 | 1 | 437 |
+
+![P4 - Ciclo por órgão](assets/pergunta_quatro.png)
+![P4 - Ciclo geral](assets/conferencia_quatro.png)
+![P4 - Maiores ciclos](assets/maiores_ciclos.png)
+![P4 - Órgão do maior ciclo](assets/orgao_maior_ciclo.png)
+
+**Conclusão:** na amostra de 2025, o ciclo médio entre publicação e homologação é de 48,1 dias. Alguns órgãos ficam muito acima disso: a UFCG leva 266,3 dias e o Conselho Federal de Engenharia e Agronomia, 223,0. O DNIT, que reúne 12 unidades compradoras, tem média de 156,2 dias. Os maiores ciclos individuais (611, 581 e 564 dias) vêm de duas contratações do Comando do Exército (CNPJ 00394452000103), o que indica atraso em contratações específicas, e não do conjunto da amostra. Os 230 itens sem ciclo (homologação anterior à publicação ou sem data) ficam fora da média, mas continuam na fato.
+
+**Insight:** os órgãos mais lentos do ranking têm ciclo médio bem acima dos 48,1 dias gerais (os 20 primeiros passam de 77 dias). O ranking mistura perfis diferentes:
+- A UFCG (266,3 dias) e o Conselho Federal de Engenharia e Agronomia (223,0) têm poucos itens com ciclo (16 e 20), então a média é sensível a poucos casos demorados.
+- A UFRN tem 123 itens com ciclo e média de 101,7 dias. O atraso é mais consistente, porque há mais itens por trás do número.
+- O DNIT reúne 12 unidades compradoras e tem um item de 437 dias, bem acima da sua média de 156,2.
+- Universidades federais e conselhos profissionais aparecem com frequência entre os mais lentos.
+- A análise é descritiva: o dado não explica a causa do atraso (complexidade do objeto, recursos, impugnações etc.).
+
+### P5 — Distribuição regional
+
+**Por região:**
+
+| Região | Volume (R$) | % do volume | Deságio % |
+|---|---:|---:|---:|
+| Centro-Oeste | 3.559.879.991,73 | 44,25 | 17,02 |
+| Nordeste | 1.850.420.285,02 | 23,00 | 14,18 |
+| Sudeste | 1.083.309.811,49 | 13,47 | 11,62 |
+| Sul | 1.021.624.955,41 | 12,70 | 7,96 |
+| Norte | 529.263.762,09 | 6,58 | 21,43 |
+
+**Principais UFs por volume:**
+
+| UF | Volume (R$) | % do volume | Deságio % |
+|---|---:|---:|---:|
+| DF | 3.135.638.456,35 | 38,98 | 15,90 |
+| RS | 820.584.056,64 | 10,20 | 7,18 |
+| RJ | 461.925.602,27 | 5,74 | 11,57 |
+| PI | 408.389.525,89 | 5,08 | 5,98 |
+| SP | 393.783.392,48 | 4,90 | 9,22 |
+
+**Maiores itens do DF:**
+
+| Contratação | Item | Valor homologado (R$) |
+|---|---:|---:|
+| 00396895000125-1-000291/2025 | 1 | 1.060.000.000,00 |
+| 00396895000125-1-000281/2025 | 1 | 379.194.320,07 |
+| 04892707000100-1-000493/2025 | 1 | 335.401.470,80 |
+| 37115342000167-1-000089/2025 | 1 | 160.000.000,00 |
+| 03353358000196-1-000034/2025 | 1 | 103.600.000,00 |
+
+![P5 - UF](assets/p5_uf.png)
+![P5 - Região](assets/p5_regiao.png)
+![P5 - Maiores itens do DF](assets/p5_maiores_itens_df.png)
+
+**Conclusão:** na amostra de 2025, o Distrito Federal concentra 38,98% do volume (R$ 3,14 bi) e o Centro-Oeste, 44,25%. Os maiores deságios por UF estão no AC (26,71%), MT (25,84%) e BA (25,01%). Por região, o Norte tem o maior deságio (21,43%), com só 6,58% do volume. O Sul tem o menor (7,96%).
+
+**Insight:** gasto e desconto não coincidem. O volume do DF é puxado por poucos itens de valor muito alto: o seguro rural (R$ 1,06 bi) equivale a cerca de 33,8% do volume do DF, e os 5 maiores itens somam R$ 2,04 bi, cerca de 65%. Isso explica por que o Centro-Oeste lidera o volume. Os maiores descontos aparecem em UFs de baixo volume, como AC e MT, e vêm de poucos itens comparáveis. A localidade é a da contratação, e um mesmo CNPJ de órgão pode aparecer em mais de uma UF, por isso a coluna de unidades compradoras não deve ser somada.
