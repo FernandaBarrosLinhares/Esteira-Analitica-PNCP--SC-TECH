@@ -107,9 +107,9 @@ A estrutura representa a organização do projeto. As pastas `sql/`, `powerbi/` 
 
 O desenvolvimento do projeto foi organizado utilizando metodologias ágeis com divisão de entregas em Sprints. Para o acompanhamento das tarefas, histórico de commits, gestão de backlog e acompanhamento dos status de desenvolvimento, foi utilizado o **GitHub Projects** integrado ao repositório.
 
-* **Link do Projeto no GitHub:** [Acesse o Board do Projeto](https://github.com/seu-usuario/seu-repositorio/projects) *(substitua pelo link do seu board)*
+* **Link do Projeto no GitHub:** [Acesse o Board do Projeto](https://github.com/users/FernandaBarrosLinhares/projects/8/views/1)
 
-![Board do GitHub Projects](docs/imag/sprint_board.png)
+![Board do GitHub Projects](docs/imag/projects.png)
 
 ---
 
