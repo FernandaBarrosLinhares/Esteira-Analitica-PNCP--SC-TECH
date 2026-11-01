@@ -65,7 +65,10 @@ A estrutura representa a organização do projeto. As pastas `sql/`, `powerbi/` 
 1. **Clonar o repositório e acessar a pasta do projeto:**
 
    ```bash
-   git clone <URL_DO_REPOSITORIO>
+   git clone 
+   
+   <https://github.com/FernandaBarrosLinhares/Esteira-Analitica-PNCP--SC-TECH>
+
    cd "Esteira Analitica PNPC - SC TECH"
    ```
 
@@ -76,7 +79,7 @@ A estrutura representa a organização do projeto. As pastas `sql/`, `powerbi/` 
    ```
 
 3. **Configurar as credenciais do banco de dados:**
-   Ajuste as configurações de conexão do MySQL no arquivo `src/carregar.py` (host, porta, usuário e senha).
+   Ajuste as configurações de conexão do MySQL no arquivo `src/carregar.py` (envexample).
 
 4. **Executar a montagem e limpeza das tabelas (ETL em Python):**
 
@@ -254,14 +257,14 @@ A carga é feita por `python -m src.carregar`, que executa o `sql/01_criar_banco
 - Soma do valor total homologado: R$ 8.044.498.805,74 (igual à prova real).
 - FK solta em órgão, fornecedor, modalidade e localidade: 0.
 - Duplicidade do grão (`numero_controle_pncp` + `numero_item`): nenhuma.
-
+<!-- 
 ![Contagem da fato](docs/imag/validacao_item.png)
 ![Soma do homologado](docs/imag/validacao_soma.png)
 ![FK solta: órgão](docs/imag/validacao_orgao.png)
-![FK solta: fornecedor](docs/imag/validacao_fornecedor.png)
-![FK solta: modalidade](docs/imag/validacao_modalidade.png)
+![FK solta: fornecedor](docs/imag/validacao_fornecedor.png) -->
+<!-- ![FK solta: modalidade](docs/imag/validacao_modalidade.png)
 ![FK solta: localidade](docs/imag/validacao_localidade.png)
-![Duplicidade do grão](docs/imag/validacao_duplicidade.png)
+![Duplicidade do grão](docs/imag/validacao_duplicidade.png) -->
 
 ---
 
