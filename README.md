@@ -1,0 +1,448 @@
+# Esteira Analítica PNCP — SC TECH
+
+## 1. Objetivo do projeto
+
+Desenvolver uma esteira analítica de ponta a ponta para transformar dados de contratações públicas do Portal Nacional de Contratações Públicas (PNCP) em uma base estruturada, confiável e preparada para análises de controle e transparência.
+
+O projeto utiliza Python, Pandas e MySQL para tratar os dados, aplicar regras de negócio, construir tabelas dimensionais e preparar indicadores para visualização no Power BI.
+
+---
+
+## 2. Fonte e período dos dados
+
+A base utilizada foi disponibilizada pelo professor e contém dados do PNCP referentes ao ano de 2025, no período de 02/01/2025 a 31/12/2025.
+
+Foram utilizados três arquivos CSV:
+
+| Arquivo | Descrição | Registros |
+|---|---|---:|
+| `compras.csv` | Dados das contratações | 2.042 |
+| `itens.csv` | Itens licitados | 7.077 |
+| `resultados.csv` | Fornecedores classificados por item | 15.896 |
+
+Os arquivos originais foram mantidos em `data/raw/`, separados dos arquivos resultantes do processamento.
+
+---
+
+## 3. Estrutura do projeto
+
+```text
+Esteira Analitica PNPC - SC TECH/
+├── data/
+│   ├── raw/
+│   └── processed/
+├── src/
+│   ├── extrair.py
+│   ├── limpeza.py
+│   ├── montar_tabelas.py
+│   └── carregar.py
+├── sql/
+│   ├── 01_criar_banco.sql
+│   ├── 02_perguntas.sql
+│   └── 03_validacao.sql
+├── powerbi/
+├── docs/
+│   └── imag/
+└── README.md
+```
+
+A estrutura representa a organização do projeto. As pastas `sql/`, `powerbi/` e `docs/imag/` são utilizadas para os scripts SQL, o arquivo do Power BI e as imagens das evidências correspondentes.
+
+---
+
+
+
+## Como rodar o projeto
+
+### Pré-requisitos
+
+- **Python 3.10+** instalado
+- **MySQL Server** ativo e em execução
+- Gerenciador de pacotes **pip**
+
+### Passo a passo para execução
+
+1. **Clonar o repositório e acessar a pasta do projeto:**
+
+   ```bash
+   git clone 
+   
+   <https://github.com/FernandaBarrosLinhares/Esteira-Analitica-PNCP--SC-TECH>
+
+   cd "Esteira Analitica PNPC - SC TECH"
+   ```
+
+2. **Instalar as dependências:**
+
+   ```bash
+   pip install pandas mysql-connector-python
+   ```
+
+3. **Configurar as credenciais do banco de dados:**
+   Ajuste as configurações de conexão do MySQL no arquivo `src/carregar.py` (envexample).
+
+4. **Executar a montagem e limpeza das tabelas (ETL em Python):**
+
+   ```bash
+   python -m src.montar_tabelas
+   ```
+
+   *Os arquivos processados serão gerados na pasta `data/processed/`.*
+
+5. **Realizar a carga no MySQL:**
+
+   ```bash
+   python -m src.carregar
+   ```
+
+   *Este comando criará o banco de dados `pncp_controladoria`, suas tabelas dimensionais/fato e efetuará a carga.*
+
+6. **Executar consultas e validações SQL:**
+
+   * Os scripts SQL de consulta e verificação estão disponíveis na pasta `sql/`:
+     * `sql/01_criar_banco.sql` — Estrutura física do banco.
+     * `sql/02_perguntas.sql` — Consultas analíticas para a Controladoria.
+     * `sql/03_validacao.sql` — Testes de integridade e contagens.
+
+---
+
+## 4. Gestão do Projeto (Sprints e GitHub Projects)
+
+O desenvolvimento do projeto foi organizado utilizando metodologias ágeis com divisão de entregas em Sprints. Para o acompanhamento das tarefas, histórico de commits, gestão de backlog e acompanhamento dos status de desenvolvimento, foi utilizado o **GitHub Projects** integrado ao repositório.
+
+* **Link do Projeto no GitHub:** [Acesse o Board do Projeto](https://github.com/users/FernandaBarrosLinhares/projects/8/views/1)
+
+![Board do GitHub Projects](docs/imag/projects.png)
+
+---
+
+## 5. Etapa 1 — Extração e organização dos dados
+
+O script `src/extrair.py` foi executado para organizar os arquivos brutos fornecidos para a atividade.
+
+Após a execução, os três arquivos CSV foram identificados em `data/raw/`, com as seguintes quantidades:
+
+- `compras.csv`: 2.042 registros.
+- `itens.csv`: 7.077 registros.
+- `resultados.csv`: 15.896 registros.
+
+A conferência das quantidades confirmou que os arquivos esperados estavam disponíveis para as etapas seguintes.
+
+---
+
+## 6. Etapa 2 — Limpeza e padronização
+
+O módulo `src/limpeza.py` reúne funções utilizadas no tratamento dos dados antes da montagem das tabelas analíticas.
+
+As regras contemplam:
+
+- Padronização de documentos de identificação, como CNPJ e CPF.
+- Conversão e tratamento de valores monetários.
+- Padronização de datas e verificação de coerência temporal.
+- Identificação de valores nulos e textos que representam ausência de informação.
+- Sanitização e padronização de textos.
+
+As funções de limpeza são aplicadas durante o processamento dos arquivos, reduzindo inconsistências e preparando os dados para os relacionamentos e cálculos posteriores.
+
+---
+
+## 7. Etapa 3 — Montagem das tabelas analíticas
+
+O script `src/montar_tabelas.py` integra os arquivos de compras, itens e resultados, aplica as regras de negócio e gera os arquivos processados em `data/processed/`.
+
+O processamento inclui a identificação dos resultados dos itens, a exclusão de registros inválidos e a preparação da tabela fato e das dimensões.
+
+### Regras de negócio aplicadas
+
+- Relacionamento entre os dados de compras, itens e resultados.
+- Tratamento dos itens sem resultado homologado.
+- Exclusão de itens inválidos conforme as regras definidas no projeto.
+- Seleção do resultado vencedor por item.
+- Verificação da coerência entre as datas de publicação e homologação.
+- Cálculo de valores e indicadores utilizados nas análises.
+- Identificação de itens comparáveis para a análise de economia.
+
+### Modelo dimensional previsto
+
+| Tabela | Finalidade |
+|---|---|
+| `fato_item_contratado` | Registrar os itens contratados e suas métricas |
+| `dim_orgao` | Organizar as informações dos órgãos compradores |
+| `dim_fornecedor` | Organizar os dados dos fornecedores |
+| `dim_modalidade` | Descrever as modalidades de contratação |
+| `dim_localidade` | Organizar as informações geográficas |
+
+A estrutura física dessas tabelas será validada na etapa de modelagem e carga no MySQL.
+
+---
+
+## 8. Validação do processamento Python
+
+O pipeline foi executado pelo comando:
+
+```bash
+python -m src.montar_tabelas
+```
+
+Os resultados foram comparados com os números de referência disponibilizados no enunciado.
+
+| Indicador | Resultado obtido |
+|---|---:|
+| Itens com resultado antes dos filtros | 6.225 |
+| Itens rejeitados | 99 |
+| Registros previstos na tabela fato | 6.126 |
+| Contratações distintas | 1.962 |
+| Fornecedores distintos | 2.652 |
+| Órgãos distintos | 363 |
+| Itens comparáveis | 5.457 |
+| Economia calculada | 14,46% |
+| Ciclo médio de homologação | 48,1 dias |
+| Maior ciclo de homologação | 611 dias |
+| Itens sem ciclo calculável | 230 |
+
+**Volume total homologado:** R$ 8.044.498.805,74.
+
+### Distribuição do volume homologado
+
+- Obras e engenharia: 60,8%.
+- Serviços: 36,6%.
+- Bens: 2,6%.
+
+Os resultados apresentados pelo script coincidiram com os valores de referência do enunciado para os indicadores conferidos. Essa validação confirma os resultados do processamento Python, mas não substitui a conferência da carga e da integridade dos dados no MySQL.
+
+---
+
+## 9. Evidências
+
+As evidências foram salvas na pasta `docs/imag/`, incluindo a saída do console da validação Python e os resultados dos testes de carga no MySQL.
+
+![Saída do console na validação do pipeline](docs/imag/validacao_pipeline.png)
+
+---
+
+## 10. Etapa 4 — Modelagem dimensional no MySQL
+
+Foi elaborado o script SQL para criação do banco de dados `pncp_controladoria` e das cinco tabelas previstas no modelo dimensional.
+
+Tabelas criadas no modelo:
+
+- `dim_orgao`: dados dos órgãos compradores.
+- `dim_fornecedor`: identificação e características dos fornecedores.
+- `dim_modalidade`: modalidades de contratação.
+- `dim_localidade`: unidades federativas e regiões.
+- `fato_item_contratado`: itens contratados, valores, datas e indicadores de análise.
+
+A tabela fato utiliza chaves estrangeiras para relacionar os registros às quatro dimensões. O modelo também define restrições de unicidade e verificações para quantidades, valores e classificação dos itens comparáveis.
+
+Status: script de criação elaborado e validado.
+
+---
+
+## 11. Etapa 5 — Carga e validação no MySQL
+
+A carga é feita por `python -m src.carregar`, que executa o `sql/01_criar_banco.sql`, carrega as 4 dimensões primeiro e a fato depois, em lote.
+
+### Contagens (banco x prova real)
+
+| Tabela | Obtido | Esperado |
+|---|---:|---:|
+| `fato_item_contratado` | 6.126 | 6.126 |
+| `dim_orgao` | 363 | 363 |
+| `dim_fornecedor` | 2.652 | 2.652 |
+| `dim_modalidade` | 7 | 7 |
+| `dim_localidade` | 27 | 27 |
+
+### Validações de integridade (`sql/03_validacao.sql`)
+
+- Soma do valor total homologado: R$ 8.044.498.805,74 (igual à prova real).
+- FK solta em órgão, fornecedor, modalidade e localidade: 0.
+- Duplicidade do grão (`numero_controle_pncp` + `numero_item`): nenhuma.
+<!-- 
+![Contagem da fato](docs/imag/validacao_item.png)
+![Soma do homologado](docs/imag/validacao_soma.png)
+![FK solta: órgão](docs/imag/validacao_orgao.png)
+![FK solta: fornecedor](docs/imag/validacao_fornecedor.png) -->
+<!-- ![FK solta: modalidade](docs/imag/validacao_modalidade.png)
+![FK solta: localidade](docs/imag/validacao_localidade.png)
+![Duplicidade do grão](docs/imag/validacao_duplicidade.png) -->
+
+---
+
+## 12. Respostas às perguntas da Controladoria
+
+> *Os resultados valem para a amostra de contratações federais de 2025 analisada, e não para todo o governo.*  
+> *Consultas disponíveis em `sql/02_perguntas.sql`.*
+
+### P1 — Economia global
+
+**Resultado:**
+
+| Indicador | Valor |
+|---|---:|
+| Estimado (itens comparáveis) | R$ 6.867.663.469,91 |
+| Economia nominal | R$ 992.861.686,95 |
+| Economia % | 14,46% |
+
+![P1 - Economia](docs/imag/pergunta_um.png)
+
+**Conclusão:** nos itens comparáveis, o governo pagou 14,46% abaixo do estimado, o que dá cerca de R$ 993 mi de economia. O cálculo é soma ÷ soma e exclui Credenciamento e itens fora da faixa de 0,1 a 10.
+
+---
+
+### P2 — Concentração de fornecedores
+
+**Resultado:**
+
+| Indicador | Valor |
+|---|---:|
+| Top 10: volume | R$ 3.332.484.029,86 |
+| Top 10: % do volume total | 41,43% |
+| 1º colocado (NOW SEGUROS SA) | R$ 1,06 bi (13,18%) |
+
+![P2 - Top 10 fornecedores](docs/imag/pergunta_dois.png)
+![P2 - Concentração](docs/imag/pergunta_dois_complemento.png)
+![P2 - Detalhe NOW SEGUROS](docs/imag/now_seguros.png)
+
+**Conclusão:** na amostra de 2025 analisada, os 10 maiores fornecedores, entre 2.652, concentram R$ 3,33 bi (41,43% do volume homologado). O 1º colocado, NOW SEGUROS SA, responde por 13,18% (R$ 1,06 bi), mas isso vem de um único item: a seleção de seguradora para o Programa de Subvenção ao Prêmio do Seguro Rural, de alcance nacional. Ou seja, parte da concentração decorre de contratos isolados de grande porte, e não de recorrência. Predominam construtoras entre os demais, coerente com o peso de Obras e engenharia.
+
+**Insight:** a concentração é puxada por poucos itens de valor muito alto. Como melhoria futura, vale medir a concentração também por quantidade de itens por fornecedor.
+
+---
+
+### P3 — Eficácia por modalidade
+
+**Resultado:**
+
+| Modalidade | Itens | Volume (R$) | % do volume | Deságio % |
+|---|---:|---:|---:|---:|
+| Concorrência - Eletrônica | 521 | 4.700.493.122,98 | 58,43 | 14,27 |
+| Credenciamento | 601 | 2.141.301.557,16 | 26,62 | n/d |
+| Pregão - Eletrônico | 3.046 | 502.223.491,28 | 6,24 | 24,02 |
+| Concorrência - Presencial | 63 | 444.752.757,18 | 5,53 | 6,79 |
+| Inexigibilidade | 503 | 213.365.238,19 | 2,65 | 8,77 |
+| Dispensa | 1.387 | 39.887.350,44 | 0,50 | 4,49 |
+| Pregão - Presencial | 5 | 2.475.288,51 | 0,03 | 0,02 |
+
+![P3 - Modalidades](docs/imag/pergunta_tres.png)
+
+**Conclusão:** na amostra de 2025, a Concorrência - Eletrônica concentra 58,43% do volume, com deságio de 14,27%. O Pregão - Eletrônico tem o maior deságio (24,02%) e movimenta só 6,24% do volume. Credenciamento é o 2º em volume (26,62%), mas não tem deságio comparável, porque o valor estimado é um teto global. Pregão - Presencial tem apenas 5 itens, então seu resultado não é representativo.
+
+**Insight:** volume e economia não andam juntos. A Concorrência - Eletrônica movimenta 58,43% do dinheiro com deságio de 14,27%, enquanto o Pregão - Eletrônico tem o maior deságio (24,02%) com só 6,24% do volume. Para a Controladoria, o ganho potencial está em levar para disputas mais competitivas parte do volume que hoje passa por Credenciamento (26,62% do volume, sem deságio mensurável).
+
+---
+
+### P4 — Tempo do ciclo de compras
+
+**Resultado geral:**
+
+| Indicador | Valor |
+|---|---:|
+| Itens com ciclo | 5.896 |
+| Ciclo médio | 48,1 dias |
+| Ciclo máximo | 611 dias |
+| Itens sem ciclo | 230 |
+
+**Órgãos com maior ciclo médio** (5 ou mais itens com ciclo, agrupados pelo nome padronizado):
+
+| Órgão | Unidades | Itens com ciclo | Ciclo médio (dias) |
+|---|---:|---:|---:|
+| Universidade Federal de Campina Grande | 1 | 16 | 266,3 |
+| Conselho Federal de Engenharia e Agronomia | 1 | 20 | 223,0 |
+| DNIT | 12 | 62 | 156,2 |
+
+**Maiores ciclos individuais:**
+
+| Contratação | Item | Ciclo (dias) |
+|---|---:|---:|
+| 00394452000103-1-002632/2025 | 17 | 611 |
+| 00394452000103-1-002632/2025 | 16 | 581 |
+| 00394452000103-1-001751/2025 | 10 | 564 |
+| 29979036000140-1-000124/2025 | 1 | 482 |
+| 04892707000100-1-000101/2025 | 1 | 437 |
+
+![P4 - Ciclo por órgão](docs/imag/pergunta_quatro.png)
+![P4 - Ciclo geral](docs/imag/conferencia_quatro.png)
+![P4 - Maiores ciclos](docs/imag/maiores_ciclos.png)
+![P4 - Órgão do maior ciclo](docs/imag/orgao_maior_ciclo.png)
+
+**Conclusão:** na amostra de 2025, o ciclo médio entre publicação e homologação é de 48,1 dias. Alguns órgãos ficam muito acima disso: a UFCG leva 266,3 dias e o Conselho Federal de Engenharia e Agronomia, 223,0. O DNIT, que reúne 12 unidades compradoras, tem média de 156,2 dias. Os maiores ciclos individuais (611, 581 e 564 dias) vêm de duas contratações do Comando do Exército (CNPJ 00394452000103), o que indica atraso em contratações específicas, e não do conjunto da amostra. Os 230 itens sem ciclo (homologação anterior à publicação ou sem data) ficam fora da média, mas continuam na fato.
+
+**Insight:** os órgãos mais lentos do ranking têm ciclo médio bem acima dos 48,1 dias gerais (os 20 primeiros passam de 77 dias). O ranking mistura perfis diferentes:
+- A UFCG (266,3 dias) e o Conselho Federal de Engenharia e Agronomia (223,0) têm poucos itens com ciclo (16 e 20), então a média é sensível a poucos casos demorados.
+- A UFRN tem 123 itens com ciclo e média de 101,7 dias. O atraso é mais consistente, porque há mais itens por trás do número.
+- O DNIT reúne 12 unidades compradoras e tem um item de 437 dias, bem acima da sua média de 156,2.
+- Universidades federais e conselhos profissionais aparecem com frequência entre os mais lentos.
+- A análise é descritiva: o dado não explica a causa do atraso (complexidade do objeto, recursos, impugnações etc.).
+
+---
+
+### P5 — Distribuição regional
+
+**Por região:**
+
+| Região | Volume (R$) | % do volume | Deságio % |
+|---|---:|---:|---:|
+| Centro-Oeste | 3.559.879.991,73 | 44,25 | 17,02 |
+| Nordeste | 1.850.420.285,02 | 23,00 | 14,18 |
+| Sudeste | 1.083.309.811,49 | 13,47 | 11,62 |
+| Sul | 1.021.624.955,41 | 12,70 | 7,96 |
+| Norte | 529.263.762,09 | 6,58 | 21,43 |
+
+**Principais UFs por volume:**
+
+| UF | Volume (R$) | % do volume | Deságio % |
+|---|---:|---:|---:|
+| DF | 3.135.638.456,35 | 38,98 | 15,90 |
+| RS | 820.584.056,64 | 10,20 | 7,18 |
+| RJ | 461.925.602,27 | 5,74 | 11,57 |
+| PI | 408.389.525,89 | 5,08 | 5,98 |
+| SP | 393.783.392,48 | 4,90 | 9,22 |
+
+**Maiores itens do DF:**
+
+| Contratação | Item | Valor homologado (R$) |
+|---|---:|---:|
+| 00396895000125-1-000291/2025 | 1 | 1.060.000.000,00 |
+| 00396895000125-1-000281/2025 | 1 | 379.194.320,07 |
+| 04892707000100-1-000493/2025 | 1 | 335.401.470,80 |
+| 37115342000167-1-000089/2025 | 1 | 160.000.000,00 |
+| 03353358000196-1-000034/2025 | 1 | 103.600.000,00 |
+
+![P5 - UF](docs/imag/pergunta_cinco.png)
+![P5 - Região](docs/imag/regiao.png)
+![P5 - Maiores itens do DF](docs/imag/maiores_itens_df.png)
+
+**Conclusão:** na amostra de 2025, o Distrito Federal concentra 38,98% do volume (R$ 3,14 bi) e o Centro-Oeste, 44,25%. Os maiores deságios por UF estão no AC (26,71%), MT (25,84%) e BA (25,01%). Por região, o Norte tem o maior deságio (21,43%), com só 6,58% do volume. O Sul tem o menor (7,96%).
+
+**Insight:** gasto e desconto não coincidem. O volume do DF é puxado por poucos itens de valor muito alto: o seguro rural (R$ 1,06 bi) equivale a cerca de 33,8% do volume do DF, e os 5 maiores itens somam R$ 2,04 bi, cerca de 65%. Isso explica por que o Centro-Oeste lidera o volume. Os maiores descontos aparecem em UFs de baixo volume, como AC e MT, e vêm de poucos itens comparáveis. A localidade é a da contratação, e um mesmo CNPJ de órgão pode aparecer em mais de uma UF, por isso a coluna de unidades compradoras não deve ser somada.
+
+---
+
+### P6 — Perfil dos gastos
+
+**Resultado:**
+
+| Perfil | Itens | Volume (R$) | % do volume | Ticket médio (R$) |
+|---|---:|---:|---:|---:|
+| Obras e engenharia | 967 | 4.892.362.732,70 | 60,8 | 5.059.320,30 |
+| Serviços | 1.849 | 2.940.950.885,18 | 36,6 | 1.590.562,94 |
+| Bens | 3.310 | 211.185.187,86 | 2,6 | 63.802,17 |
+
+![P6 - Perfil do gasto](docs/imag/pergunta_seis.png)
+
+**Conclusão:** na amostra de 2025, Obras e engenharia concentram 60,8% do volume homologado (R$ 4,89 bi), Serviços ficam com 36,6% (R$ 2,94 bi) e Bens com apenas 2,6% (R$ 211 mi). A classificação usa as palavras obra, construção, reforma e engenharia (com limite de palavra, `\b`) na descrição do item e no objeto da contratação; essas palavras têm prioridade sobre Material ou Serviço.
+
+**Insight:** o dinheiro público da amostra está em poucos itens de alto valor. Os 967 itens de Obras (15,8% dos itens) movimentam 60,8% do volume, enquanto os 3.310 itens de Bens (54%) movimentam 2,6%. Para a Controladoria, o risco financeiro está nas obras e nos serviços, não na compra de bens. Como a classificação depende das palavras-chave escolhidas, trocar a lista altera um pouco os percentuais.
+
+---
+
+## 13. Etapa 6 — Modelo e medidas no Power BI
+
+- Importação das 5 tabelas do MySQL (1 fato + 4 dimensões), com contagens conferidas.
+- Relacionamentos 1:N das dimensões para a fato, usando as chaves substitutas (`sk_...`), ocultas na exibição de relatório.
+- Hora/data automática desligada.
+- Calendário em DAX com limites vindos dos dados, colunas Ano, Mês, MesNum, AnoMes e AnoMesNum, ordenação por número e marcado como tabela de datas.
+- Duas relações com a fato: `data_publicacao` (ativa) e `data_homologacao` (inativa, a ser usada com `USERELATIONSHIP`).
+- Tabela dedicada de medidas. Primeira medida criada e conferida: Volume Homologado = R$ 8.044.498.805,74.
+
+![Modelo no Power BI](docs/imag/modelo_estrela.png)
