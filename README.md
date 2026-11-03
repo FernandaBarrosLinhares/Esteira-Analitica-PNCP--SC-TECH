@@ -503,7 +503,7 @@ Arquivo: `powerbi/dashboard_pncp.pbix`.
 - Navegação: menu retrátil com botões ☰ e ✕ e indicadores (bookmarks) [CONFIRMAR: ✕ fechando o menu]; botão de limpar filtros e tooltip de página [CONFIRMAR: o que está pronto].
 - Cada página segue a estrutura: pergunta, números e conclusão.
 
-![Modelo no Power BI](docs/img/modelo_estrela.png)
+![Modelo no Power BI](docs/img/dashboard.png)
 
 ### Medidas
 

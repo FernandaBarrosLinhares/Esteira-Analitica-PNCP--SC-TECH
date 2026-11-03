@@ -1,8 +1,7 @@
 """
-limpeza.py  -  FUNCOES DE LIMPEZA   (voce completa os trechos marcados com ____)
+limpeza.py  -  FUNCOES DE LIMPEZA   
 ============================================================================
 Cada funcao resolve UM problema dos dados brutos (CNPJ com mascara, "R$ 1.234,56", datas em varios formatos...).
-Leia o texto da funcao, olhe os exemplos e troque cada  ____  pelo codigo certo.
 O que vem depois de "COMPLETE:" explica, em uma frase, o que fazer.
 
 COMO SABER SE ACERTOU:   python -m src.limpeza
@@ -200,7 +199,7 @@ def converter_data(texto):
 
 
 # =============================================================================================
-# AUTOTESTE: python -m src.limpeza     (nao precisa mexer daqui para baixo)
+# AUTOTESTE: python -m src.limpeza     
 # =============================================================================================
 from datetime import date  # noqa: E402
 
