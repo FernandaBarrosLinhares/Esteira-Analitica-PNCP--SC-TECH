@@ -2,7 +2,7 @@
 
 Esteira de dados ponta a ponta para auditoria de contratações públicas federais: **PNCP (CSV) → Python (auditoria e limpeza) → MySQL (Star Schema) → Power BI (dashboard executivo)**.
 
-> Vídeo de apresentação (Review de Sprint): [PREENCHER: link do Google Drive]
+> Vídeo de apresentação : [https://drive.google.com/file/d/1S9y2I23tzdVenIpYpdS9Ev4RUg7TRKCo/view?usp=sharing]
 
 ---
 
